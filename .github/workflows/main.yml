@@ -33,6 +33,10 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add -A
-        git commit -m "Convert Jupyter notebooks to Markdown" || echo "No changes to commit"
-        git push
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Convert Jupyter notebooks to Markdown"
+          git push origin HEAD:${{ github.ref }}
+        fi
 
